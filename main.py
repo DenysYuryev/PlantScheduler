@@ -56,10 +56,10 @@ class MyWidget(QtWidgets.QMainWindow):
         while self.ui.TableWidget1.item(i, 0) != 0:
             index.append(self.ui.TableWidget1.item(i, 0))
 
-        print("Array" + str(index))
+        print("Array: " + str(index))
 
         maxim = max(index)
-        print("Max" + str(maxim))
+        print("Max: " + str(maxim))
 
         self.ID = maxim + 1
 
