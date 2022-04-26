@@ -18,11 +18,11 @@ class MyWidget(QtWidgets.QMainWindow):
         self.table_index = 0
         self.row_cont = 1
 
-        self.ID = 0
-        self.Name = ""
-        self.Class = ""
-        self.Dependence = 0
-        self.Image = ""
+        # self.ID = 0
+        # self.Name = ""
+        # self.Class = ""
+        # self.Dependence = 0
+        # self.Image = ""
 
         if not (self.ui.radioButton_1.isChecked() and self.ui.radioButton_2.isChecked()):
             self.ui.radioButton_2.click()
@@ -36,44 +36,56 @@ class MyWidget(QtWidgets.QMainWindow):
             print("Hide")
 
     def addeqip(self):
-        if (len(self.ui.lineEdit.text())) > 0:
-            self.Name = self.ui.lineEdit.text()
-        else:
-            return
+        ID = 0
+        Name = ""
+        Class = ""
+        Dependence = 0
+        Image = ""
 
-        if (len(self.ui.comboBox.text())) > 0:
-            self.Name = self.ui.comboBox.text()
-        else:
-            return
+        print("test")
 
-        if (len(self.ui.comboBox_2.text()) and self.ui.radioButton_1.clicked) > 0:
-            self.Name = self.ui.comboBox_2.text()
-        else:
-            return
+        # if (len(self.ui.lineEdit.text())) > 0:
+        #     Name = self.ui.lineEdit.text()
+        # else:
+        #     print("Name is empty")
+        #     pass
+        #
+        # if (len(self.ui.comboBox.text())) > 0:
+        #     Class = self.ui.comboBox.text()
+        # else:
+        #     print("Class is empty")
+        #     pass
 
-        i = 1
-        index = [0]
-        while self.ui.TableWidget1.item(i, 0) != 0:
-            index.append(self.ui.TableWidget1.item(i, 0))
+        # if (len(self.ui.comboBox_2.text()) and self.ui.radioButton_1.clicked) > 0:
+        #     self.Dependence = self.ui.comboBox_2.text()
+        # else:
+        #     pass
 
-        print("Array:" + str(index))
+        # i = 1
+        # index = [0]
+        # while self.ui.TableWidget1.item(i, 0) != 0:
+        #     index.append(self.ui.TableWidget1.item(i, 0))
+        #
+        # print("Array:" + str(index))
+        #
+        # maxim = max(index)
+        # print("Max:" + str(maxim))
+        #
+        # self.ID = maxim + 1
 
-        maxim = max(index)
-        print("Max:" + str(maxim))
+        # self.ui.TableWidget1.setRowCount(self.row_cont)
+        # self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(self.ID))
+        # self.ui.TableWidget1.setItem(self.table_index, 1, QtWidgets.QTableWidgetItem(self.Name))
+        # self.ui.TableWidget1.setItem(self.table_index, 2, QtWidgets.QTableWidgetItem(self.Class))
+        # self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Image))
 
-        self.ID = maxim + 1
+        print("Name: " + self.Name + "\n" + "Class: " + self.Name)
 
-        self.ui.TableWidget1.setRowCount(self.row_cont)
-        self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(self.ID))
-        self.ui.TableWidget1.setItem(self.table_index, 1, QtWidgets.QTableWidgetItem(self.Name))
-        self.ui.TableWidget1.setItem(self.table_index, 2, QtWidgets.QTableWidgetItem(self.Class))
-        self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Image))
-
-        self.table_index += 1
-        self.row_cont += 1
-
-        self.ui.toolButton_1.setDisabled(True)
-        self.ui.toolButton_2.setDisabled(False)
+        # self.table_index += 1
+        # self.row_cont += 1
+        #
+        # self.ui.toolButton_1.setDisabled(True)
+        # self.ui.toolButton_2.setDisabled(False)
 
     def deleqip(self):
         self.ui.toolButton_2.setDisabled(True)
