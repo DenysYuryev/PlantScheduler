@@ -24,14 +24,16 @@ class MyWidget(QtWidgets.QMainWindow):
         self.ui.radioButton_1.clicked.connect(self.controlset)
         self.ui.radioButton_2.clicked.connect(self.controlset)
 
+        self.ui.pushButtonImg.clicked.connect(self.setimg)
+
         self.table_index = 0
         self.row_cont = 1
 
-        self.ID = 0
-        self.Name = ''
-        self.Class = ''
-        self.Dependence = ''
-        self.Image = ''
+        self.ID = None
+        self.Name = None
+        self.Class = None
+        self.Dependence = None
+        self.Image = None
 
         if not (self.ui.radioButton_1.isChecked() and self.ui.radioButton_2.isChecked()):
             self.ui.radioButton_2.click()
@@ -71,24 +73,25 @@ class MyWidget(QtWidgets.QMainWindow):
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
-        print(self.name + " " + self.Class + " " + self.Dependence)
-
+        print("row to be added: |" + self.Name + "|" + self.Class + "|" + self.Dependence + "|")
+        i = 0
         try:
-            i = 1
-            index = [0]
+            index = []
             print("Start count index")
-            while self.ui.TableWidget1.item(i, 0) != 0:
-                index.append(self.ui.TableWidget1.item(i, 0))
-                print(index)
+            print(self.ui.TableWidget1.item(i, 0))
+
+            while self.ui.TableWidget1.item(i, 0).text() != 0:
+                index.append(self.ui.TableWidget1.item(i, 0).text())
+                print("Index:  {} ; \n i: {}".format(index[i], i))
+                i += 1
 
             maxim = max(index)
-
             self.ID = maxim + 1
 
             print(self.ID)
         except:
-            txt = "Something wrong in {}"
-            res = QtWidgets.QMessageBox.critical(self, 'Error', txt.format(self.ID))
+            txt = "Something wrong in -> {} row"
+            res = QtWidgets.QMessageBox.critical(self, 'Error', txt.format(i))
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
@@ -106,6 +109,8 @@ class MyWidget(QtWidgets.QMainWindow):
     def deleqip(self):
         pass
 
+    def setimg(self):
+        pass
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

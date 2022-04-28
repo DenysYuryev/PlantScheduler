@@ -345,32 +345,26 @@
          <string>Додати</string>
         </property>
        </widget>
-       <widget class="QGraphicsView" name="graphicsView">
+       <widget class="QPushButton" name="pushButtonImg">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>430</x>
           <y>0</y>
-          <width>241</width>
-          <height>191</height>
+          <width>190</width>
+          <height>190</height>
          </rect>
         </property>
-        <property name="cursor" stdset="0">
+        <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
-        <property name="accessibleName">
-         <string>Photo</string>
+        <property name="text">
+         <string>Зображення</string>
         </property>
-        <property name="accessibleDescription">
-         <string>Photo</string>
-        </property>
-        <property name="autoFillBackground">
-         <bool>true</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="Name" stdset="0">
-         <string>Photo</string>
+        <property name="iconSize">
+         <size>
+          <width>190</width>
+          <height>190</height>
+         </size>
         </property>
        </widget>
       </widget>
