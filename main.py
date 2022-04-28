@@ -9,6 +9,15 @@ class MyWidget(QtWidgets.QMainWindow):
         QtWidgets.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        self.ui.TableWidget1.setRowCount(1)
+        self.ui.TableWidget1.setColumnCount(4)
+
+        # style = '''
+        #     QTableWidget::item {background-color: #fffff8; font-size: 12pt}
+        # '''
+        # self.setStyleShit(style)
+
         self.ui.toolButton_1.clicked.connect(self.addeqip)
         self.ui.toolButton_2.clicked.connect(self.deleqip)
 
@@ -19,10 +28,10 @@ class MyWidget(QtWidgets.QMainWindow):
         self.row_cont = 1
 
         self.ID = 0
-        self.Name = ""
-        self.Class = ""
-        self.Dependence = ""
-        self.Image = ""
+        self.Name = ''
+        self.Class = ''
+        self.Dependence = ''
+        self.Image = ''
 
         if not (self.ui.radioButton_1.isChecked() and self.ui.radioButton_2.isChecked()):
             self.ui.radioButton_2.click()
@@ -38,34 +47,53 @@ class MyWidget(QtWidgets.QMainWindow):
         try:
             if (len(self.ui.lineEdit.text())) > 0:
                 self.Name = self.ui.lineEdit.text()
+                print(self.Name)
             else:
                 return
 
-            if (len(self.ui.comboBox.text())) > 0:
-                self.Class = self.ui.comboBox.text()
+            if (len(self.ui.comboBox.currentText())) > 0:
+                self.Class = self.ui.comboBox.currentText()
+                print(self.Class)
             else:
                 return
 
-            if (len(self.ui.comboBox_2.text()) and self.ui.radioButton_1.clicked) > 0:
-                self.Dependence = self.ui.comboBox_2.text()
+            if len(self.ui.comboBox_2.currentText()) > 0 and self.ui.radioButton_1.isChecked:
+                self.Dependence = self.ui.comboBox_2.currentText()
+                print(self.Dependence)
+            elif self.ui.radioButton_2.isChecked:
+                self.Dependence = "none"
+                print(self.Dependence)
             else:
+                print("Return")
                 return
         except:
-            res = QtWidgets.QMessageBox.critical(self, 'Помилка', 'Не вірно заповнена форма')
+            res = QtWidgets.QMessageBox.critical(self, 'Error', 'Something wrong fill in fields')
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
-        i = 1
-        index = [0]
-        while self.ui.TableWidget1.item(i, 0) != 0:
-            index.append(self.ui.TableWidget1.item(i, 0))
+        print(self.name + " " + self.Class + " " + self.Dependence)
 
-        maxim = max(index)
+        try:
+            i = 1
+            index = [0]
+            print("Start count index")
+            while self.ui.TableWidget1.item(i, 0) != 0:
+                index.append(self.ui.TableWidget1.item(i, 0))
+                print(index)
 
-        self.ID = maxim + 1
+            maxim = max(index)
+
+            self.ID = maxim + 1
+
+            print(self.ID)
+        except:
+            txt = "Something wrong in {}"
+            res = QtWidgets.QMessageBox.critical(self, 'Error', txt.format(self.ID))
+            if res == QtWidgets.QMessageBox.Ok:
+                return
 
         self.ui.TableWidget1.setRowCount(self.row_cont)
-        self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(self.ID))
+        self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(str(self.ID)))
         self.ui.TableWidget1.setItem(self.table_index, 1, QtWidgets.QTableWidgetItem(self.Name))
         self.ui.TableWidget1.setItem(self.table_index, 2, QtWidgets.QTableWidgetItem(self.Class))
         self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Image))

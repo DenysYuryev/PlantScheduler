@@ -159,7 +159,7 @@ class Ui_MainWindow(object):
         self.TableWidget1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.TableWidget1.setAlternatingRowColors(True)
         self.TableWidget1.setRowCount(8)
-        self.TableWidget1.setColumnCount(6)
+        self.TableWidget1.setColumnCount(5)
         self.TableWidget1.setObjectName("TableWidget1")
         item = QtWidgets.QTableWidgetItem()
         self.TableWidget1.setHorizontalHeaderItem(0, item)
