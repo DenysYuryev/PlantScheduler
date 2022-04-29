@@ -49,13 +49,13 @@ class MyWidget(QtWidgets.QMainWindow):
         try:
             if (len(self.ui.lineEdit.text())) > 0:
                 self.Name = self.ui.lineEdit.text()
-                print(self.Name)
+                print(f"{self.Name}")
             else:
                 return
 
             if (len(self.ui.comboBox.currentText())) > 0:
                 self.Class = self.ui.comboBox.currentText()
-                print(self.Class)
+                print(f"{self.Class}")
             else:
                 return
 
@@ -64,34 +64,41 @@ class MyWidget(QtWidgets.QMainWindow):
                 print(self.Dependence)
             elif self.ui.radioButton_2.isChecked:
                 self.Dependence = "none"
-                print(self.Dependence)
+                print(f"{self.Dependence}")
             else:
                 print("Return")
                 return
-        except:
-            res = QtWidgets.QMessageBox.critical(self, 'Error', 'Something wrong fill in fields')
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Error: {Error}")
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
-        print("row to be added: |" + self.Name + "|" + self.Class + "|" + self.Dependence + "|")
-        i = 0
+        print(f"row to be added: | {self.Name} | {self.Class} | {self.Dependence} |")
+
+
         try:
+            i = 0
             index = []
             print("Start count index")
-            print(self.ui.TableWidget1.item(i, 0))
+            # print("Item: ", self.ui.TableWidget1.item(i, 0))
 
-            while self.ui.TableWidget1.item(i, 0).text() != 0:
-                index.append(self.ui.TableWidget1.item(i, 0).text())
-                print("Index:  {} ; \n i: {}".format(index[i], i))
+            while self.ui.TableWidget1.item(i, 0).data() != None:
+                index.append(self.ui.TableWidget1.item(i, 0))
+                print("Index: {};\ni: {};".format(index[i], i))
+                if i >= 10:
+                    break
                 i += 1
 
             maxim = max(index)
+            print("maxim = ", maxim)
+
             self.ID = maxim + 1
 
             print(self.ID)
-        except:
+
+        except Exception as Error:
             txt = "Something wrong in -> {} row"
-            res = QtWidgets.QMessageBox.critical(self, 'Error', txt.format(i))
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Error: {Error}\n" + txt.format(i))
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
@@ -110,7 +117,8 @@ class MyWidget(QtWidgets.QMainWindow):
         pass
 
     def setimg(self):
-        pass
+        imgpath = QtWidgets.QFileDialog.getOpenFileName(self, "Вибір зображення", "Ім'я файла", "Image (*.png *jpeg)\n All files *.*")
+        print(imgpath)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
