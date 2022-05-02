@@ -3,14 +3,6 @@ import sys
 from mainUI import *
 from mainUI import Ui_MainWindow
 
-from PyQt5 import QtCore, QtWidgets
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
 
 class MyWidget(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -29,7 +21,7 @@ class MyWidget(QtWidgets.QMainWindow):
         self.ui.toolButton_1.clicked.connect(self.addeqip)
         self.ui.toolButton_2.clicked.connect(self.deleqip)
 
-        self.ui.radioButton_1.clicked.connect(self.controlset)
+        self.ui.radioButton_1.clicked.connect(self.setdep)
         self.ui.radioButton_2.clicked.connect(self.controlset)
 
         self.ui.pushButtonImg.clicked.connect(self.setimg)
@@ -37,27 +29,52 @@ class MyWidget(QtWidgets.QMainWindow):
         self.table_index = 0
         self.row_cont = 1
 
-        self.ID = int
+        self.ID = None
+        self.Name = None
         self.Class = None
         self.Dependence = None
         self.Image = None
 
         if not (self.ui.radioButton_1.isChecked() and self.ui.radioButton_2.isChecked()):
             self.ui.radioButton_2.click()
+            self.ui.comboBox_2.clear()
+        elif self.ui.radioButton_2.isChecked():
+            self.ui.comboBox_2.clear()
+
+    def setdep(self):
+        try:
+            if self.ui.radioButton_1.isChecked():
+                obj = []
+                rowcount = self.ui.TableWidget1.rowCount()
+                if rowcount > 0:
+                    for i in range(rowcount):
+                        x = str(self.ui.TableWidget1.item(i, 1).text())
+                        obj.append(x)
+                else:
+                    res = QtWidgets.QMessageBox.information(self, 'Information', "No object list")
+                    if res == QtWidgets.QMessageBox.Ok:
+                        return self.ui.radioButton_2.setChecked(True)
+                self.ui.comboBox_2.addItems(obj)
+                self.ui.comboBox_2.setEnabled(True)
+            else:
+                self.ui.comboBox_2.setEnabled(False)
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Dependency adding error: {Error}.\n")
+            if res == QtWidgets.QMessageBox.Ok:
+                return
 
     def controlset(self):
         if not self.ui.radioButton_2.isChecked():
             self.ui.comboBox_2.setEnabled(True)
         else:
             self.ui.comboBox_2.setEnabled(False)
+            self.ui.comboBox_2.clear()
 
     def addeqip(self):
-
         try:
             if (len(self.ui.lineEdit.text())) > 0:
                 self.Name = self.ui.lineEdit.text()
                 print(f"{self.Name}")
-
                 if (len(self.ui.comboBox.currentText())) > 0:
                     self.Class = self.ui.comboBox.currentText()
                     print(f"{self.Class}")
@@ -76,7 +93,7 @@ class MyWidget(QtWidgets.QMainWindow):
             else:
                 return
         except Exception as Error:
-            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Error: {Error}")
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data fields error: {Error}.\n")
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
@@ -85,6 +102,7 @@ class MyWidget(QtWidgets.QMainWindow):
         try:
             i = 0
             index = []
+            name = []
             print("Start count index")
 
             rowcount = self.ui.TableWidget1.rowCount()
@@ -92,9 +110,9 @@ class MyWidget(QtWidgets.QMainWindow):
             if rowcount > 0:
                 for i in range(rowcount):
                     x = int(self.ui.TableWidget1.item(i, 0).text())
-                    print(f"x = {x}")
                     index.append(x)
-                    print(f"Index: {index[i]};")
+                    y = self.ui.TableWidget1.item(i, 1).text()
+                    name.append(y)
                     i += 1
                 i = max(index)
                 print(f"max = {i}")
@@ -103,19 +121,41 @@ class MyWidget(QtWidgets.QMainWindow):
 
             self.ID = i + 1
             print(f"ID: {self.ID}")
+            print(f"List name: {name}")
+
+            i = 0
+            list_count = len(name)
+            print(f"List count = {list_count}")
+            for i in range(list_count):
+                nm = self.ui.TableWidget1.item(i, 1).text()
+                lst = name[i]
+                print(f"Name: {nm} - List: {lst}")
+                if self.ui.lineEdit.text() == name[i]:
+                    QtWidgets.QMessageBox.information(self, 'Information', f"This name exists.")
+                    i = 0
+                    return
+                else:
+                    i += 1
+
+            if self.ui.comboBox_2.currentText() != "" and self.ui.radioButton_1.isChecked():
+                self.Dependence = self.ui.comboBox_2.currentText()
 
             self.ui.TableWidget1.setRowCount(self.row_cont)
             self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(str(self.ID)))
             self.ui.TableWidget1.setItem(self.table_index, 1, QtWidgets.QTableWidgetItem(self.Name))
             self.ui.TableWidget1.setItem(self.table_index, 2, QtWidgets.QTableWidgetItem(self.Class))
-            self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Image))
+            self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Dependence))
+            self.ui.TableWidget1.setItem(self.table_index, 4, QtWidgets.QTableWidgetItem(self.Image))
 
             self.table_index += 1
             self.row_cont += 1
 
+            self.ui.radioButton_2.click()
+            self.ui.comboBox_2.clear()
+
         except Exception as Error:
             txt = "Something wrong in -> {} row"
-            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Error: {Error}\n" + txt.format(i))
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Equipment adding error: {Error}.\n")
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
@@ -123,8 +163,14 @@ class MyWidget(QtWidgets.QMainWindow):
         pass
 
     def setimg(self):
-        imgpath = QtWidgets.QFileDialog.getOpenFileName(self, "Вибір зображення", "Ім'я файла", "Image (*.png *jpeg)\n All files *.*")
-        print(imgpath)
+        path = QtWidgets.QFileDialog.getOpenFileName(self, "Select image", "File name", "Image (*.png *jpeg)\n All files *.*")
+        print(path[0])
+        try:
+            self.ui.pushButtonImg.setIcon(self, path[0])
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Selection image file error: {Error}.")
+            if res == QtWidgets.QMessageBox.Ok:
+                return
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
