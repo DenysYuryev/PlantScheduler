@@ -78,12 +78,14 @@ class MyWidget(QtWidgets.QMainWindow):
             i = 0
             index = []
             print("Start count index")
-            # print("Item: ", self.ui.TableWidget1.item(i, 0))
+
             rowcount = self.ui.TableWidget1.rowCount()
             print(f"Row count = {rowcount}")
             if rowcount > 0:
-                for i in rowcount:
-                    index.append(self.ui.TableWidget1.index(i, 0).data())
+                for i in range(rowcount):
+                    x = self.ui.TableWidget1.item(i, 0)
+                    print(f"x = {x}")
+                    index.append(x)
                     print(f"Index: {index[i]};")
                     i += 1
                 i = max(index)
@@ -92,10 +94,10 @@ class MyWidget(QtWidgets.QMainWindow):
                 i = 0
 
             self.ID = i + 1
-            print("ID: {}".format(self.ID))
+            print(f"ID: {self.ID}")
 
             self.ui.TableWidget1.setRowCount(self.row_cont)
-            self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(str(self.ID)))
+            self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(self.ID))
             self.ui.TableWidget1.setItem(self.table_index, 1, QtWidgets.QTableWidgetItem(self.Name))
             self.ui.TableWidget1.setItem(self.table_index, 2, QtWidgets.QTableWidgetItem(self.Class))
             self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Image))

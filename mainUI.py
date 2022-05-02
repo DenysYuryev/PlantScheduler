@@ -156,6 +156,7 @@ class Ui_MainWindow(object):
         self.TableWidget1.setMouseTracking(True)
         self.TableWidget1.setAccessibleName("")
         self.TableWidget1.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.TableWidget1.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.TableWidget1.setAlternatingRowColors(True)
         self.TableWidget1.setRowCount(8)
         self.TableWidget1.setColumnCount(6)
