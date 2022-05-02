@@ -3,6 +3,14 @@ import sys
 from mainUI import *
 from mainUI import Ui_MainWindow
 
+from PyQt5 import QtCore, QtWidgets
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
 
 class MyWidget(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
@@ -83,7 +91,7 @@ class MyWidget(QtWidgets.QMainWindow):
             print(f"Row count = {rowcount}")
             if rowcount > 0:
                 for i in range(rowcount):
-                    x = self.ui.TableWidget1.item(i, 0)
+                    x = int(self.ui.TableWidget1.item(i, 0).text())
                     print(f"x = {x}")
                     index.append(x)
                     print(f"Index: {index[i]};")
@@ -97,7 +105,7 @@ class MyWidget(QtWidgets.QMainWindow):
             print(f"ID: {self.ID}")
 
             self.ui.TableWidget1.setRowCount(self.row_cont)
-            self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(self.ID))
+            self.ui.TableWidget1.setItem(self.table_index, 0, QtWidgets.QTableWidgetItem(str(self.ID)))
             self.ui.TableWidget1.setItem(self.table_index, 1, QtWidgets.QTableWidgetItem(self.Name))
             self.ui.TableWidget1.setItem(self.table_index, 2, QtWidgets.QTableWidgetItem(self.Class))
             self.ui.TableWidget1.setItem(self.table_index, 3, QtWidgets.QTableWidgetItem(self.Image))
