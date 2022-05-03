@@ -26,6 +26,8 @@ class MyWidget(QtWidgets.QMainWindow):
 
         self.ui.pushButtonImg.clicked.connect(self.setimg)
 
+        self.ui.pushButton.clicked.connect(self.sqlcon)
+
         self.table_index = 0
         self.row_cont = 1
 
@@ -171,6 +173,12 @@ class MyWidget(QtWidgets.QMainWindow):
             res = QtWidgets.QMessageBox.critical(self, 'Error', f"Selection image file error: {Error}.")
             if res == QtWidgets.QMessageBox.Ok:
                 return
+
+from PyQt5.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery
+from PyQt5.QtWidgets import QTableView, QApplication
+
+    def sqlcon(self):
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
