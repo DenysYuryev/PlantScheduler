@@ -221,14 +221,13 @@ class MyWidget(QtWidgets.QMainWindow):
             model = QSqlQueryModel()
             model.setQuery(qry)
 
-            view = QTableView()
-            view.setModel(model)
-
+            # view = QTableView()
+            # view.setModel(model)
             # view.show()
 
-            qry.first()
-            print(qry.record())
-            print(qry.nextResult())
+            # qry.first()
+            # print(qry.record())
+            # print(qry.nextResult())
 
             self.ui.plainTextEdit.appendPlainText(f'Result: {qry.record()}\n ROW: {model.record()}\n')
 
