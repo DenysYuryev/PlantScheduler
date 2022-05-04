@@ -225,11 +225,19 @@ class MyWidget(QtWidgets.QMainWindow):
             # view.setModel(model)
             # view.show()
 
+            res = qry.result()
+
             # qry.first()
             # print(qry.record())
             # print(qry.nextResult())
+            string = ""
+            self.ui.plainTextEdit.appendPlainText(f'Row count: {res.record().count()}\n')
+            print(f'Row count: {res.record().count()}\n')
 
-            self.ui.plainTextEdit.appendPlainText(f'Result: {qry.record()}\n ROW: {model.record()}\n')
+            for row in range(res.record().count()):
+                string = string + "|" + str(res.record().fieldName(row)) + "|"
+            self.ui.plainTextEdit.appendPlainText(f'{string}\n')
+            print(f'{string}\n')
 
         except Exception as Error:
             res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data from SQL error: {Error}.\n")
