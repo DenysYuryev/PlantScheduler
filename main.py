@@ -8,6 +8,7 @@ from PyQt5.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery
 from PyQt5.QtWidgets import QTableView, QApplication
 
 
+# main class window
 class MyWidget(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
@@ -179,6 +180,7 @@ class MyWidget(QtWidgets.QMainWindow):
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
+# SQL connection and data reading
     SERVER_NAME = "VM-SV101-TULCHI\\PLANTIT"
     DATABASE_NAME = "dbIdc"
     USERNAME = "sa"
@@ -208,7 +210,7 @@ class MyWidget(QtWidgets.QMainWindow):
             return False
 
     def disp_data(self):
-        SQL_STATEMENT = "SELECT * FROM dbo.tblIdcUser"
+        SQL_STATEMENT = f"SELECT * FROM dbo.{self.ui.comboBox_3.currentText()}"
 
         try:
             print('Processing query...')
@@ -221,8 +223,9 @@ class MyWidget(QtWidgets.QMainWindow):
             model = QSqlQueryModel()
             model.setQuery(qry)
 
-            # view = QTableView()
-            # view.setModel(model)
+            view = QTableView()
+            view.setModel(model)
+
             # view.show()
 
             res = qry.result()
