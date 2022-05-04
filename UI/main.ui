@@ -536,14 +536,27 @@
        <string>Connection to SQL</string>
       </property>
      </widget>
-     <widget class="QListView" name="listView">
+     <widget class="QPlainTextEdit" name="plainTextEdit">
       <property name="geometry">
        <rect>
         <x>150</x>
         <y>10</y>
-        <width>651</width>
-        <height>91</height>
+        <width>641</width>
+        <height>101</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>131</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Read data</string>
       </property>
      </widget>
     </widget>

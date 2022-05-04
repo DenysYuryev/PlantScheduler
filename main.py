@@ -1,7 +1,11 @@
 import sys
+import time
 
 from mainUI import *
 from mainUI import Ui_MainWindow
+
+from PyQt5.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery
+from PyQt5.QtWidgets import QTableView, QApplication
 
 
 class MyWidget(QtWidgets.QMainWindow):
@@ -18,15 +22,16 @@ class MyWidget(QtWidgets.QMainWindow):
         # '''
         # self.setStyleShit(style)
 
-        self.ui.toolButton_1.clicked.connect(self.addeqip)
-        self.ui.toolButton_2.clicked.connect(self.deleqip)
+        self.ui.toolButton_1.clicked.connect(self.add_eqip)
+        self.ui.toolButton_2.clicked.connect(self.del_eqip)
 
-        self.ui.radioButton_1.clicked.connect(self.setdep)
-        self.ui.radioButton_2.clicked.connect(self.controlset)
+        self.ui.radioButton_1.clicked.connect(self.set_dep)
+        self.ui.radioButton_2.clicked.connect(self.control_set)
 
-        self.ui.pushButtonImg.clicked.connect(self.setimg)
+        self.ui.pushButtonImg.clicked.connect(self.set_img)
 
-        self.ui.pushButton.clicked.connect(self.sqlcon)
+        self.ui.pushButton.clicked.connect(self.sql_con)
+        self.ui.pushButton_2.clicked.connect(self.disp_data)
 
         self.table_index = 0
         self.row_cont = 1
@@ -43,7 +48,7 @@ class MyWidget(QtWidgets.QMainWindow):
         elif self.ui.radioButton_2.isChecked():
             self.ui.comboBox_2.clear()
 
-    def setdep(self):
+    def set_dep(self):
         try:
             if self.ui.radioButton_1.isChecked():
                 obj = []
@@ -65,14 +70,14 @@ class MyWidget(QtWidgets.QMainWindow):
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
-    def controlset(self):
+    def control_set(self):
         if not self.ui.radioButton_2.isChecked():
             self.ui.comboBox_2.setEnabled(True)
         else:
             self.ui.comboBox_2.setEnabled(False)
             self.ui.comboBox_2.clear()
 
-    def addeqip(self):
+    def add_eqip(self):
         try:
             if (len(self.ui.lineEdit.text())) > 0:
                 self.Name = self.ui.lineEdit.text()
@@ -161,10 +166,10 @@ class MyWidget(QtWidgets.QMainWindow):
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
-    def deleqip(self):
+    def del_eqip(self):
         pass
 
-    def setimg(self):
+    def set_img(self):
         path = QtWidgets.QFileDialog.getOpenFileName(self, "Select image", "File name", "Image (*.png *jpeg)\n All files *.*")
         print(path[0])
         try:
@@ -174,14 +179,73 @@ class MyWidget(QtWidgets.QMainWindow):
             if res == QtWidgets.QMessageBox.Ok:
                 return
 
-from PyQt5.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery
-from PyQt5.QtWidgets import QTableView, QApplication
+    SERVER_NAME = "VM-SV101-TULCHI\\PLANTIT"
+    DATABASE_NAME = "dbIdc"
+    USERNAME = "sa"
+    PASSWORD = "ProAdmin777"
 
-    def sqlcon(self):
+    def sql_con(self):
+        connection = f'DRIVER={{SQL Server}};'\
+                     f'SERVER={self.SERVER_NAME};'\
+                     f'UID={self.USERNAME};'\
+                     f'PWD={self.PASSWORD};'\
+                     f'DATABASE={self.DATABASE_NAME}'
 
+        print(connection)
+        self.ui.plainTextEdit.appendPlainText(connection)
+
+        global db
+        db = QSqlDatabase.addDatabase('QODBC')
+        db.setDatabaseName(connection)
+
+        if db.open():
+            print('Connection to SQL server successfully')
+            self.ui.plainTextEdit.appendPlainText('Connection to SQL server successfully')
+            return True
+        else:
+            self.ui.plainTextEdit.appendPlainText('Connection to SQL server failed')
+            print('Connection to SQL server failed')
+            return False
+
+    def disp_data(self):
+        SQL_STATEMENT = "SELECT * FROM dbo.tblIdcUser"
+
+        try:
+            print('Processing query...')
+            self.ui.plainTextEdit.appendPlainText(f'Processing query... : {SQL_STATEMENT}')
+
+            qry = QSqlQuery(db)
+            qry.prepare(SQL_STATEMENT)
+            qry.exec()
+
+            model = QSqlQueryModel()
+            model.setQuery(qry)
+
+            view = QTableView()
+            view.setModel(model)
+
+            # view.show()
+
+            qry.first()
+            print(qry.record())
+            print(qry.nextResult())
+
+            self.ui.plainTextEdit.appendPlainText(f'Result: {qry.record()}\n ROW: {model.record()}\n')
+
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data from SQL error: {Error}.\n")
+            if res == QtWidgets.QMessageBox.Ok:
+                db.close()
+                return
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = MyWidget()
+
+    # if ui.sql_con():
+    #     SQL_STATEMENT = "SELECT * FROM dbo.tblIdcUser"
+    #     dataView = ui.disp_data(SQL_STATEMENT)
+    #     dataView.show()
+
     ui.show()
     sys.exit(app.exec_())
