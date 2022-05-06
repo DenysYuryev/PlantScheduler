@@ -578,13 +578,13 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="frame_bottom">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>560</y>
       <width>1021</width>
-      <height>671</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -597,14 +597,14 @@
      <property name="geometry">
       <rect>
        <x>150</x>
-       <y>560</y>
+       <y>0</y>
        <width>841</width>
        <height>101</height>
       </rect>
      </property>
     </widget>
    </widget>
-   <zorder>frame</zorder>
+   <zorder>frame_bottom</zorder>
    <zorder>frame_left</zorder>
    <zorder>frame_right</zorder>
   </widget>
