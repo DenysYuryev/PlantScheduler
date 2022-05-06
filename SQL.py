@@ -1,6 +1,5 @@
 import pyodbc
-import main
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 
 # SQL connection and data reading
 SERVER_NAME = 'VM-SV101-TULCHI\PLANTIT'
@@ -8,13 +7,14 @@ DATABASE_NAME = 'dbIdc'
 USERNAME = 'sa'
 PASSWORD = 'ProAdmin777'
 
+
 def SQLconnection():
     try:
-        connection_string = f'DRIVER={{SQL Server}};'\
-                             f'SERVER={SERVER_NAME};'\
-                             f'UID={USERNAME};'\
-                             f'PWD={PASSWORD};'\
-                             f'DATABASE={DATABASE_NAME}'
+        connection_string = f'DRIVER={{SQL Server}};' \
+                            f'SERVER={SERVER_NAME};' \
+                            f'UID={USERNAME};' \
+                            f'PWD={PASSWORD};' \
+                            f'DATABASE={DATABASE_NAME}'
 
         connection = pyodbc.connect(connection_string)
         return connection
@@ -23,6 +23,7 @@ def SQLconnection():
         if res == QtWidgets.QMessageBox.Ok:
             connection.close()
             return 0
+
 
 def SQLread(table_name):
     SQL_STATEMENT = f"SELECT * FROM dbo.{table_name}"

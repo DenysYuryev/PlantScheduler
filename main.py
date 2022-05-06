@@ -189,72 +189,94 @@ class MyWidget(QtWidgets.QMainWindow):
     PASSWORD = "ProAdmin777"
 
     def sql_con(self):
-        SQL.SQLconnection()
+        # SQL.SQLconnection()
 
-        # connection = f'DRIVER={{SQL Server}};'\
-        #              f'SERVER={self.SERVER_NAME};'\
-        #              f'UID={self.USERNAME};'\
-        #              f'PWD={self.PASSWORD};'\
-        #              f'DATABASE={self.DATABASE_NAME}'
-        #
-        # print(connection)
-        # self.ui.plainTextEdit.appendPlainText(connection)
-        #
-        # global db
-        # db = QSqlDatabase.addDatabase('QODBC')
-        # db.setDatabaseName(connection)
-        #
-        # if db.open():
-        #     print('Connection to SQL server successfully')
-        #     self.ui.plainTextEdit.appendPlainText('Connection to SQL server successfully')
-        #     return True
-        # else:
-        #     self.ui.plainTextEdit.appendPlainText('Connection to SQL server failed')
-        #     print('Connection to SQL server failed')
-        #     return False
+        connection = f'DRIVER={{SQL Server}};'\
+                     f'SERVER={self.SERVER_NAME};'\
+                     f'UID={self.USERNAME};'\
+                     f'PWD={self.PASSWORD};'\
+                     f'DATABASE={self.DATABASE_NAME}'
+
+        print(connection)
+        self.ui.plainTextEdit.appendPlainText(connection)
+
+        global db
+        db = QSqlDatabase.addDatabase('QODBC')
+        db.setDatabaseName(connection)
+
+        if db.open():
+            print('Connection to SQL server successfully')
+            self.ui.plainTextEdit.appendPlainText('Connection to SQL server successfully')
+            return True
+        else:
+            self.ui.plainTextEdit.appendPlainText('Connection to SQL server failed')
+            print('Connection to SQL server failed')
+            return False
 
     def disp_data(self):
-
+        list_header = []
+        list_value = []
         table_name = self.ui.comboBox_3.currentText()
-        SQL.SQLread(table_name)
+        # SQL.SQLread(table_name)
 
-        # SQL_STATEMENT = f"SELECT * FROM dbo.{self.ui.comboBox_3.currentText()}"
-        #
-        # try:
-        #     print('Processing query...')
-        #     self.ui.plainTextEdit.appendPlainText(f'Processing query... : {SQL_STATEMENT}')
-        #
-        #     qry = QSqlQuery(db)
-        #     qry.prepare(SQL_STATEMENT)
-        #     qry.exec()
-        #
-        #     model = QSqlQueryModel()
-        #     model.setQuery(qry)
-        #
-        #     view = QTableView()
-        #     view.setModel(model)
-        #
-        #     # view.show()
-        #
-        #     res = qry.result()
-        #
-        #     # qry.first()
-        #     # print(qry.record())
-        #     # print(qry.nextResult())
-        #     string = ""
-        #     self.ui.plainTextEdit.appendPlainText(f'Row count: {res.record().count()}\n')
-        #     print(f'Row count: {res.record().count()}\n')
-        #
-        #     for row in range(res.record().count()):
-        #         string = string + "|" + str(res.record().fieldName(row)) + "|"
-        #     self.ui.plainTextEdit.appendPlainText(f'{string}\n')
-        #     print(f'{string}\n')
-        #
-        # except Exception as Error:
-        #     res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data from SQL error: {Error}.\n")
-        #     if res == QtWidgets.QMessageBox.Ok:
-        #         db.close()
-        #         return
+        SQL_STATEMENT = f"SELECT * FROM dbo.{table_name}"
+
+        try:
+            print('Processing query...')
+            self.ui.plainTextEdit.appendPlainText(f'Processing query... : {SQL_STATEMENT}')
+
+            qry = QSqlQuery(db)
+            qry.prepare(SQL_STATEMENT)
+            qry.exec()
+
+            model = QSqlQueryModel()
+            model.setQuery(qry)
+
+            view = QTableView()
+            view.setModel(model)
+            # view.show()
+
+            qry.first()
+            res = qry.result()
+
+            string = ""
+            self.ui.plainTextEdit.appendPlainText(f'Field count: {res.record().count()}\n')
+            print(f'Field count: {res.record().count()}\n')
+
+            # while qry.next():
+            field_count = res.record().count()
+            row_count = res.size()
+            print(f'Column count: {field_count}; Row count: {row_count}')
+
+            self.ui.TableWidget2.setRowCount(row_count)
+
+
+            index = 0
+            for field in range(field_count):
+                item = res.record().fieldName(field)
+                list_header.append(item)
+                self.ui.TableWidget2.setColumnWidth(field, len(list_header[field]))
+
+                while qry.next():
+                    val = qry.value(index)
+                    list_value.append(val)
+
+                # for index in range(row_count):
+                #     self.ui.TableWidget2.setItem(index, field, QtWidgets.QTableWidgetItem(tbl_header[field]))
+                    index += 1
+
+            print(f'{list_header} \n {list_value}')
+            # print(len(tbl_header[field_count]))
+
+            self.ui.TableWidget2.setHorizontalHeaderLabels(list_header)
+            # self.ui.plainTextEdit.appendPlainText(f'{list_header}\n')
+            # print(f'{list_header}')
+
+        except Exception as Error:
+            res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data from SQL error: {Error}.\n")
+            if res == QtWidgets.QMessageBox.Ok:
+                db.close()
+                return
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
