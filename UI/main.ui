@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>995</width>
+    <width>1024</width>
     <height>720</height>
    </rect>
   </property>
@@ -53,7 +53,7 @@
      <rect>
       <x>149</x>
       <y>0</y>
-      <width>650</width>
+      <width>841</width>
       <height>560</height>
      </rect>
     </property>
@@ -68,7 +68,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>871</width>
+       <width>841</width>
        <height>560</height>
       </rect>
      </property>
@@ -89,7 +89,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -115,7 +115,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>650</width>
+         <width>651</width>
          <height>250</height>
         </rect>
        </property>
@@ -189,7 +189,7 @@
            </property>
            <item>
             <property name="text">
-             <string>Линія</string>
+             <string>Лінія</string>
             </property>
            </item>
            <item>
@@ -251,7 +251,7 @@
                <rect>
                 <x>10</x>
                 <y>10</y>
-                <width>91</width>
+                <width>51</width>
                 <height>19</height>
                </rect>
               </property>
@@ -272,7 +272,7 @@
                <rect>
                 <x>60</x>
                 <y>10</y>
-                <width>140</width>
+                <width>41</width>
                 <height>19</height>
                </rect>
               </property>
@@ -345,32 +345,26 @@
          <string>Додати</string>
         </property>
        </widget>
-       <widget class="QGraphicsView" name="graphicsView">
+       <widget class="QPushButton" name="pushButtonImg">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>430</x>
           <y>0</y>
-          <width>241</width>
-          <height>191</height>
+          <width>190</width>
+          <height>190</height>
          </rect>
         </property>
-        <property name="cursor" stdset="0">
+        <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
-        <property name="accessibleName">
-         <string>Photo</string>
+        <property name="text">
+         <string>Зображення</string>
         </property>
-        <property name="accessibleDescription">
-         <string>Photo</string>
-        </property>
-        <property name="autoFillBackground">
-         <bool>true</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="Name" stdset="0">
-         <string>Photo</string>
+        <property name="iconSize">
+         <size>
+          <width>190</width>
+          <height>190</height>
+         </size>
         </property>
        </widget>
       </widget>
@@ -423,6 +417,9 @@
            </property>
            <property name="verticalScrollBarPolicy">
             <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
            </property>
            <property name="alternatingRowColors">
             <bool>true</bool>
@@ -497,18 +494,97 @@
      </widget>
      <widget class="QWidget" name="Tab2">
       <attribute name="title">
-       <string>Tab 2</string>
+       <string>База даних</string>
       </attribute>
+      <widget class="QWidget" name="widget_2" native="true">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>831</width>
+         <height>91</height>
+        </rect>
+       </property>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>161</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Connection to SQL</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>161</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Read data</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>420</x>
+          <y>10</y>
+          <width>161</width>
+          <height>19</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Таблиця бази даних:</string>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="comboBox_3">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>10</y>
+          <width>231</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>tblIdcUser</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>tabMessstellen</string>
+         </property>
+        </item>
+       </widget>
+      </widget>
+      <widget class="QTableWidget" name="TableWidget2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>130</y>
+         <width>841</width>
+         <height>391</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="frame_bottom">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>560</y>
       <width>1021</width>
-      <height>671</height>
+      <height>111</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -517,8 +593,18 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QPlainTextEdit" name="plainTextEdit">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>0</y>
+       <width>841</width>
+       <height>101</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
-   <zorder>frame</zorder>
+   <zorder>frame_bottom</zorder>
    <zorder>frame_left</zorder>
    <zorder>frame_right</zorder>
   </widget>
@@ -527,7 +613,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>995</width>
+     <width>1024</width>
      <height>21</height>
     </rect>
    </property>
