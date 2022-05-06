@@ -5,7 +5,7 @@ import SQL
 from mainUI import *
 from mainUI import Ui_MainWindow
 
-from PyQt5.QtSql import QSqlDatabase, QSqlQueryModel, QSqlQuery
+from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQueryModel, QSqlQuery
 from PyQt5.QtWidgets import QTableView, QApplication
 
 
@@ -214,8 +214,7 @@ class MyWidget(QtWidgets.QMainWindow):
             return False
 
     def disp_data(self):
-        list_header = []
-        list_value = []
+
         table_name = self.ui.comboBox_3.currentText()
         # SQL.SQLread(table_name)
 
@@ -229,54 +228,59 @@ class MyWidget(QtWidgets.QMainWindow):
             qry.prepare(SQL_STATEMENT)
             qry.exec()
 
-            model = QSqlQueryModel()
-            model.setQuery(qry)
+            fields = qry.record().count()
+            rows = qry.numRowsAffected()
 
-            view = QTableView()
-            view.setModel(model)
-            # view.show()
+            print(f'Fields: {fields} \n'
+                  f'Rows: {rows}')
+            self.ui.plainTextEdit.appendPlainText(f'Fields: {fields} \n'
+                                                  f'Rows: {rows}')
+            self.ui.TableWidget2.setColumnCount(fields)
 
-            qry.first()
-            res = qry.result()
+            model = QSqlTableModel(self)
 
-            string = ""
-            self.ui.plainTextEdit.appendPlainText(f'Field count: {res.record().count()}\n')
-            print(f'Field count: {res.record().count()}\n')
+            list_fields = []
+            list_fields.clear()
+            if fields > 0:
+                for field in range(fields):
+                    item = qry.record().fieldName(field)
+                    list_fields.append(item)
 
-            # while qry.next():
-            field_count = res.record().count()
-            row_count = res.size()
-            print(f'Column count: {field_count}; Row count: {row_count}')
+                    self.ui.TableWidget2.setColumnWidth(field, len(list_fields[field]))
 
-            self.ui.TableWidget2.setRowCount(row_count)
+                print(f'Item fields: {list_fields}')
 
+                self.ui.TableWidget2.setHorizontalHeaderLabels(list_fields)
+                self.ui.TableWidget2.resizeColumnsToContents()
 
-            index = 0
-            for field in range(field_count):
-                item = res.record().fieldName(field)
-                list_header.append(item)
-                self.ui.TableWidget2.setColumnWidth(field, len(list_header[field]))
+            item = []
 
-                while qry.next():
-                    val = qry.value(index)
-                    list_value.append(val)
+            if rows > 0:
+                qry.first()
+                for field in range(fields):
+                    row = self.ui.TableWidget2.rowCount()
+                    self.ui.TableWidget2.setRowCount(field + 1)
+                    item.clear()
+                    for colum in range(rows):
+                        item.append(qry.value(colum))
+                        print(f'ROW: {row}; COLUM: {colum}')
+                        self.ui.TableWidget2.setItem(row, colum, QtWidgets.QTableWidgetItem(str(item[colum])))
 
-                # for index in range(row_count):
-                #     self.ui.TableWidget2.setItem(index, field, QtWidgets.QTableWidgetItem(tbl_header[field]))
-                    index += 1
+                    qry.next()
 
-            print(f'{list_header} \n {list_value}')
-            # print(len(tbl_header[field_count]))
+                    # self.ui.TableWidget2.setItem(row, 0, QtWidgets.QTableWidgetItem(str(item[0])))
 
-            self.ui.TableWidget2.setHorizontalHeaderLabels(list_header)
-            # self.ui.plainTextEdit.appendPlainText(f'{list_header}\n')
-            # print(f'{list_header}')
+                    print(f'Item {row}: {item}')
+
+                self.ui.TableWidget2.resizeColumnsToContents()
+                # self.setCentralWidget(self.ui.TableWidget2)
 
         except Exception as Error:
             res = QtWidgets.QMessageBox.critical(self, 'Error', f"Read data from SQL error: {Error}.\n")
             if res == QtWidgets.QMessageBox.Ok:
                 db.close()
                 return
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
