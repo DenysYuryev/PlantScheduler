@@ -1,11 +1,9 @@
 import sys
-import time
 
 from mainUI import *
 from mainUI import Ui_MainWindow
 
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQueryModel, QSqlQuery
-from PyQt5.QtWidgets import QTableView, QApplication
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 
 
 # main class window
@@ -17,11 +15,6 @@ class MyWidget(QtWidgets.QMainWindow):
 
         self.ui.TableWidget1.setRowCount(0)
         self.ui.TableWidget1.setColumnCount(4)
-
-        # style = '''
-        #     QTableWidget::item {background-color: #fffff8; font-size: 12pt}
-        # '''
-        # self.setStyleShit(style)
 
         self.ui.toolButton_1.clicked.connect(self.add_eqip)
         self.ui.toolButton_2.clicked.connect(self.del_eqip)
