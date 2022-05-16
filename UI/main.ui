@@ -105,7 +105,7 @@
       <enum>QTabWidget::North</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -392,7 +392,7 @@
          <height>280</height>
         </rect>
        </property>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -568,6 +568,21 @@
         </item>
         <item>
          <property name="text">
+          <string>tblCPDataX</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>tblIdcMessageArchive</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>tblIdcMeasureCurves</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>tabMessstellen</string>
          </property>
         </item>
@@ -612,7 +627,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -623,7 +638,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout"/>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -634,6 +649,8 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_2"/>
    </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>layoutWidget</zorder>
    <zorder>frame_bottom</zorder>
    <zorder>frame_left</zorder>
    <zorder>frame_right</zorder>
@@ -644,7 +661,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
